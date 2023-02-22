@@ -51,6 +51,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+  flutter_flavorizr: ^2.1.5
   flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -94,3 +95,23 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flavorizr:
+  flavors:
+    development:
+      app:
+        name: "Tasko Dev"
+
+      android:
+        applicationId: "com.rizentium.taskodev"
+
+      ios:
+        bundleId: "com.rizentium.taskodev"
+
+    production:
+      app:
+        name: "Tasko"
+
+      android:
+        applicationId: "com.rizentium.tasko"
+      ios:
+        bundleId: "com.rizentium.tasko"
