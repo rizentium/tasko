@@ -6,15 +6,18 @@ import 'package:tasko/feature/home/cubit/home_cubit.dart';
 class HomeScreen extends StatelessWidget {
   final GetUserUsecase _getUserUsecase;
   final Widget _profileScreen;
+  final Widget _dashboardScreen;
   final void Function(BuildContext) onUnauthorized;
 
   const HomeScreen({
     super.key,
     required GetUserUsecase getUserUsecase,
     required Widget profileScreen,
+    required Widget dashboardScreen,
     required this.onUnauthorized,
   })  : _getUserUsecase = getUserUsecase,
-        _profileScreen = profileScreen;
+        _profileScreen = profileScreen,
+        _dashboardScreen = dashboardScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +25,7 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeCubit(
         getUserUsecase: _getUserUsecase,
         profileScreen: _profileScreen,
+        dashboardScreen: _dashboardScreen,
       ),
       child: _HomeScreen(onUnauthorized: onUnauthorized),
     );

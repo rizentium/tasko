@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tasko/feature/dashboard/screen/dashboard.dart';
 import 'package:tasko/feature/login/route/login.dart';
 import 'package:tasko/feature/profile/screen/profile.dart';
 
@@ -17,6 +18,7 @@ routerConfig(GetIt locator) {
             LoginRoute.path,
           ),
         ),
+        dashboardScreen: const DashboardScreen(),
       ).route,
       LoginRoute(
         signInUserUsecase: locator(),

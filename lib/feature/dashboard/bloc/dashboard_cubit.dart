@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasko/feature/home/cubit/dashboard_interface.dart';
-import 'package:tasko/feature/home/screen/dashboard_done.dart';
-import 'package:tasko/feature/home/screen/dashboard_in_progress.dart';
-import 'package:tasko/feature/home/screen/dashboard_todo.dart';
+
+import '../screen/dashboard_done.dart';
+import '../screen/dashboard_in_progress.dart';
+import '../screen/dashboard_todo.dart';
+import 'dashboard_interface.dart';
 
 part 'dashboard_state.dart';
 
