@@ -11,4 +11,10 @@ final basicThemeData = ThemeData(
   // Notice that the counter didn't reset back to zero; the application
   // is not restarted.
   primarySwatch: Colors.blue,
+  filledButtonTheme: FilledButtonThemeData(
+    style: ButtonStyle(
+      shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+    ),
+  ),
 );
