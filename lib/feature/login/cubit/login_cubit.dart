@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tasko/domain/usecases/user/signin_user_usecase.dart';
@@ -20,8 +21,12 @@ class LoginCubit extends Cubit<LoginState> {
       } else {
         throw Error();
       }
+    } on FirebaseAuthException catch (e) {
+      emit(
+        LoginFailure(message: e.message ?? 'Failed on authentication process'),
+      );
     } catch (e) {
-      emit(LoginFailure(message: 'Failed, please check your connection'));
+      emit(LoginFailure(message: e.toString()));
     }
   }
 }

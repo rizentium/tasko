@@ -5,18 +5,24 @@ import 'package:tasko/feature/home/cubit/home_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   final GetUserUsecase _getUserUsecase;
+  final Widget _profileScreen;
   final void Function(BuildContext) onUnauthorized;
 
   const HomeScreen({
     super.key,
     required GetUserUsecase getUserUsecase,
+    required Widget profileScreen,
     required this.onUnauthorized,
-  }) : _getUserUsecase = getUserUsecase;
+  })  : _getUserUsecase = getUserUsecase,
+        _profileScreen = profileScreen;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(getUserUsecase: _getUserUsecase),
+      create: (context) => HomeCubit(
+        getUserUsecase: _getUserUsecase,
+        profileScreen: _profileScreen,
+      ),
       child: _HomeScreen(onUnauthorized: onUnauthorized),
     );
   }

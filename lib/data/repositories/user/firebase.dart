@@ -5,9 +5,12 @@ import 'package:tasko/core/locator/repository.dart';
 
 class FirebaseUserRepository implements Repository {
   final FirebaseAuth _firebaseAuth;
+  final String? fakeIdToken;
 
-  FirebaseUserRepository({required FirebaseAuth firebaseAuth})
-      : _firebaseAuth = firebaseAuth;
+  FirebaseUserRepository({
+    required FirebaseAuth firebaseAuth,
+    this.fakeIdToken,
+  }) : _firebaseAuth = firebaseAuth;
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -20,12 +23,14 @@ class FirebaseUserRepository implements Repository {
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      idToken: fakeIdToken ?? googleAuth?.idToken,
     );
 
     // Once signed in, return the UserCredential
     return await _firebaseAuth.signInWithCredential(credential);
   }
+
+  Future<void> signOut() => _firebaseAuth.signOut();
 
   User? getCurrentUser() {
     return FirebaseAuth.instance.currentUser;
@@ -35,6 +40,7 @@ class FirebaseUserRepository implements Repository {
   Future<void> register(GetIt locator) async {
     locator.registerSingleton<FirebaseUserRepository>(FirebaseUserRepository(
       firebaseAuth: locator(),
+      fakeIdToken: fakeIdToken,
     ));
   }
 }

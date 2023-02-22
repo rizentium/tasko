@@ -9,12 +9,15 @@ import 'package:tasko/feature/home/screen/home.dart';
 
 class HomeRoute implements RouteRegistrar {
   final GetUserUsecase _getUserUsecase;
+  final Widget _profileScreen;
   final void Function(BuildContext context) onUnauthorized;
 
   HomeRoute({
     required this.onUnauthorized,
     required GetUserUsecase getUserUsecase,
-  }) : _getUserUsecase = getUserUsecase;
+    required Widget profileScreen,
+  })  : _getUserUsecase = getUserUsecase,
+        _profileScreen = profileScreen;
 
   static String path = '/home';
 
@@ -25,6 +28,7 @@ class HomeRoute implements RouteRegistrar {
       builder: (context, state) => HomeScreen(
         onUnauthorized: onUnauthorized,
         getUserUsecase: _getUserUsecase,
+        profileScreen: _profileScreen,
       ),
     );
   }
@@ -35,6 +39,7 @@ class HomeRoute implements RouteRegistrar {
       () => HomeRoute(
         onUnauthorized: onUnauthorized,
         getUserUsecase: locator(),
+        profileScreen: _profileScreen,
       ),
     );
   }
