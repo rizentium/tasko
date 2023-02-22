@@ -20,9 +20,6 @@ class _HomeScreen extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Tasko'),
-          ),
           body: state.navigationItems[state.currentIndex].screen,
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
