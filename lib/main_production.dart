@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tasko/config/locator.dart';
 import 'app.dart';
+import 'core/locator/locator.dart';
 import 'flavors.dart';
 
 void main() {

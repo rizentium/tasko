@@ -3,21 +3,19 @@ import 'package:get_it/get_it.dart';
 import 'package:tasko/core/locator/usecase.dart';
 import 'package:tasko/data/repositories/user/firebase.dart';
 
-class GetUserUsecase implements Usecase<User?> {
+class SignInUserUsecase implements Usecase<Future<UserCredential>> {
   final FirebaseUserRepository _firebaseUserRepository;
 
-  GetUserUsecase({required FirebaseUserRepository firebaseUserRepository})
+  SignInUserUsecase({required FirebaseUserRepository firebaseUserRepository})
       : _firebaseUserRepository = firebaseUserRepository;
 
   @override
-  execute() => _firebaseUserRepository.getCurrentUser();
+  execute() => _firebaseUserRepository.signInWithGoogle();
 
   @override
   Future<void> register(GetIt locator) async {
     locator.registerFactory(
-      () => GetUserUsecase(
-        firebaseUserRepository: locator(),
-      ),
+      () => SignInUserUsecase(firebaseUserRepository: locator()),
     );
   }
 }

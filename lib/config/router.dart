@@ -7,9 +7,15 @@ import '../feature/home/route/home.dart';
 routerConfig(GetIt locator) {
   return GoRouter(
     routes: [
-      locator<HomeRoute>().route,
-      locator<LoginRoute>().route,
+      HomeRoute(
+        onUnauthorized: (context) => context.go(LoginRoute.path),
+        getUserUsecase: locator(),
+      ).route,
+      LoginRoute(
+        signInUserUsecase: locator(),
+        onSuccess: (context) => context.go(HomeRoute.path),
+      ).route,
     ],
-    initialLocation: locator<HomeRoute>().path,
+    initialLocation: HomeRoute.path,
   );
 }

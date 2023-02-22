@@ -1,40 +1,41 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tasko/core/locator/route.dart';
 import 'package:tasko/domain/usecases/user/get_user_usacase.dart';
 import 'package:tasko/feature/home/screen/home.dart';
-import 'package:tasko/feature/login/route/login.dart';
 
-class HomeRoute implements Route {
+class HomeRoute implements RouteRegistrar {
   final GetUserUsecase _getUserUsecase;
-  final LoginRoute _loginRoute;
+  final void Function(BuildContext context) onUnauthorized;
 
   HomeRoute({
+    required this.onUnauthorized,
     required GetUserUsecase getUserUsecase,
-    required LoginRoute loginRoute,
-  })  : _getUserUsecase = getUserUsecase,
-        _loginRoute = loginRoute;
+  }) : _getUserUsecase = getUserUsecase;
 
-  @override
-  String path = '/home';
+  static String path = '/home';
 
   @override
   GoRoute get route {
     return GoRoute(
       path: path,
-      builder: (context, state) => const HomeScreen(),
-      redirect: (context, state) async {
-        if (_getUserUsecase.execute() == null) {
-          return _loginRoute.path;
-        }
-      },
+      builder: (context, state) => HomeScreen(
+        onUnauthorized: onUnauthorized,
+        getUserUsecase: _getUserUsecase,
+      ),
     );
   }
 
   @override
   Future<void> register(GetIt locator) async {
     locator.registerFactory(
-      () => HomeRoute(getUserUsecase: locator(), loginRoute: locator()),
+      () => HomeRoute(
+        onUnauthorized: onUnauthorized,
+        getUserUsecase: locator(),
+      ),
     );
   }
 }
