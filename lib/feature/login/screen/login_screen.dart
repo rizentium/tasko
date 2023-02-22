@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:tasko/core/extensions/context.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Login'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'tasko',
+              style: context.textTheme.displaySmall?.copyWith(
+                color: context.colorScheme.primary,
+              ),
+            ),
+            const Text('Put every notes in single app'),
+          ],
+        ),
       ),
     );
   }
