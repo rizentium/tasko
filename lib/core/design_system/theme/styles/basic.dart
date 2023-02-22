@@ -17,4 +17,9 @@ final basicThemeData = ThemeData(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
     ),
   ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: MaterialStatePropertyAll(Colors.black.withOpacity(0.7)),
+    ),
+  ),
 );
