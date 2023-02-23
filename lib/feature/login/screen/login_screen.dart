@@ -42,9 +42,7 @@ class _LoginScreen extends StatelessWidget {
           }
 
           if (state is LoginFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            context.showSnackBar(message: state.message);
           }
         },
         child: BlocBuilder<LoginCubit, LoginState>(

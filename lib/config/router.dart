@@ -16,7 +16,7 @@ GoRouter routerConfig(GetIt locator) {
           signOutUserUsecase: locator(),
           onSignedOutUrl: LoginRoute.path,
         ),
-        dashboardScreen: const DashboardScreen(),
+        dashboardScreen: DashboardScreen(getTodoTaskUsecase: locator()),
       ).route,
       LoginRoute(
         signInUserUsecase: locator(),
