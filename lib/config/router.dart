@@ -10,19 +10,17 @@ routerConfig(GetIt locator) {
   return GoRouter(
     routes: [
       HomeRoute(
-        onUnauthorized: (context) => context.go(LoginRoute.path),
+        onUnauthorizedUrl: LoginRoute.path,
         getUserUsecase: locator(),
         profileScreen: ProfileScreen(
           signOutUserUsecase: locator(),
-          onSignedOut: (context) => context.go(
-            LoginRoute.path,
-          ),
+          onSignedOutUrl: LoginRoute.path,
         ),
         dashboardScreen: const DashboardScreen(),
       ).route,
       LoginRoute(
         signInUserUsecase: locator(),
-        onSuccess: (context) => context.go(HomeRoute.path),
+        onSuccessUrl: HomeRoute.path,
       ).route,
     ],
     initialLocation: HomeRoute.path,

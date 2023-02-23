@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tasko/domain/usecases/user/get_user_usacase.dart';
 import 'package:tasko/feature/home/cubit/home_cubit.dart';
 
@@ -7,14 +8,14 @@ class HomeScreen extends StatelessWidget {
   final GetUserUsecase _getUserUsecase;
   final Widget _profileScreen;
   final Widget _dashboardScreen;
-  final void Function(BuildContext) onUnauthorized;
+  final String onUnauthorizedUrl;
 
   const HomeScreen({
     super.key,
     required GetUserUsecase getUserUsecase,
     required Widget profileScreen,
     required Widget dashboardScreen,
-    required this.onUnauthorized,
+    required this.onUnauthorizedUrl,
   })  : _getUserUsecase = getUserUsecase,
         _profileScreen = profileScreen,
         _dashboardScreen = dashboardScreen;
@@ -27,15 +28,15 @@ class HomeScreen extends StatelessWidget {
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,
       ),
-      child: _HomeScreen(onUnauthorized: onUnauthorized),
+      child: _HomeScreen(onUnauthorizedUrl: onUnauthorizedUrl),
     );
   }
 }
 
 class _HomeScreen extends StatefulWidget {
-  final void Function(BuildContext) onUnauthorized;
+  final String onUnauthorizedUrl;
 
-  const _HomeScreen({required this.onUnauthorized});
+  const _HomeScreen({required this.onUnauthorizedUrl});
 
   @override
   State<_HomeScreen> createState() => _HomeScreenState();
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<_HomeScreen> {
     return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) {
         if (state is HomeUnauthorized) {
-          widget.onUnauthorized.call(context);
+          context.go(widget.onUnauthorizedUrl);
         }
       },
       child: BlocBuilder<HomeCubit, HomeState>(

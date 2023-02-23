@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tasko/domain/usecases/user/signout_user_usecase.dart';
 import 'package:tasko/feature/profile/cubit/profile_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
   final SignOutUserUsecase _signOutUserUsecase;
-  final void Function(BuildContext context) onSignedOut;
+  final String onSignedOutUrl;
 
   const ProfileScreen({
     required SignOutUserUsecase signOutUserUsecase,
-    required this.onSignedOut,
+    required this.onSignedOutUrl,
     super.key,
   }) : _signOutUserUsecase = signOutUserUsecase;
 
@@ -17,15 +18,15 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ProfileCubit(signOutUserUsecase: _signOutUserUsecase),
-      child: _ProfileScreen(onSignedOut: onSignedOut),
+      child: _ProfileScreen(onSignedOutUrl: onSignedOutUrl),
     );
   }
 }
 
 class _ProfileScreen extends StatefulWidget {
-  final void Function(BuildContext) onSignedOut;
+  final String onSignedOutUrl;
 
-  const _ProfileScreen({required this.onSignedOut});
+  const _ProfileScreen({required this.onSignedOutUrl});
 
   @override
   State<_ProfileScreen> createState() => _ProfileScreenState();
@@ -37,7 +38,7 @@ class _ProfileScreenState extends State<_ProfileScreen> {
     return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is ProfileSignedOut) {
-          widget.onSignedOut.call(context);
+          context.go(widget.onSignedOutUrl);
         }
       },
       child: BlocBuilder<ProfileCubit, ProfileState>(

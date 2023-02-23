@@ -11,10 +11,10 @@ class HomeRoute implements RouteRegistrar {
   final GetUserUsecase _getUserUsecase;
   final Widget _profileScreen;
   final Widget _dashboardScreen;
-  final void Function(BuildContext context) onUnauthorized;
+  final String onUnauthorizedUrl;
 
   HomeRoute({
-    required this.onUnauthorized,
+    required this.onUnauthorizedUrl,
     required GetUserUsecase getUserUsecase,
     required Widget profileScreen,
     required Widget dashboardScreen,
@@ -29,7 +29,7 @@ class HomeRoute implements RouteRegistrar {
     return GoRoute(
       path: path,
       builder: (context, state) => HomeScreen(
-        onUnauthorized: onUnauthorized,
+        onUnauthorizedUrl: onUnauthorizedUrl,
         getUserUsecase: _getUserUsecase,
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,
@@ -41,7 +41,7 @@ class HomeRoute implements RouteRegistrar {
   Future<void> register(GetIt locator) async {
     locator.registerFactory(
       () => HomeRoute(
-        onUnauthorized: onUnauthorized,
+        onUnauthorizedUrl: onUnauthorizedUrl,
         getUserUsecase: locator(),
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tasko/core/design_system/assets/images.dart';
 import 'package:tasko/core/extension/context.dart';
 import 'package:tasko/domain/usecases/user/signin_user_usecase.dart';
@@ -7,12 +8,12 @@ import 'package:tasko/feature/login/cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   final SignInUserUsecase _signInUserUsecase;
-  final void Function(BuildContext) onSuccess;
+  final String onSuccessUrl;
 
   const LoginScreen({
     super.key,
     required SignInUserUsecase signInUserUsecase,
-    required this.onSuccess,
+    required this.onSuccessUrl,
   }) : _signInUserUsecase = signInUserUsecase;
 
   @override
@@ -20,16 +21,16 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => LoginCubit(signInUserUsecase: _signInUserUsecase),
       child: _LoginScreen(
-        onSuccess: onSuccess,
+        onSuccessUrl: onSuccessUrl,
       ),
     );
   }
 }
 
 class _LoginScreen extends StatelessWidget {
-  final void Function(BuildContext) onSuccess;
+  final String onSuccessUrl;
 
-  const _LoginScreen({required this.onSuccess});
+  const _LoginScreen({required this.onSuccessUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _LoginScreen extends StatelessWidget {
       body: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            onSuccess.call(context);
+            context.go(onSuccessUrl);
           }
 
           if (state is LoginFailure) {

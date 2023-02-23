@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tasko/core/locator/route.dart';
@@ -7,11 +6,11 @@ import 'package:tasko/feature/login/screen/login_screen.dart';
 
 class LoginRoute implements RouteRegistrar {
   final SignInUserUsecase _signInUserUsecase;
-  final void Function(BuildContext context) onSuccess;
+  final String onSuccessUrl;
 
   LoginRoute({
     required SignInUserUsecase signInUserUsecase,
-    required this.onSuccess,
+    required this.onSuccessUrl,
   }) : _signInUserUsecase = signInUserUsecase;
 
   static String path = '/login';
@@ -22,7 +21,7 @@ class LoginRoute implements RouteRegistrar {
       path: path,
       builder: (context, state) => LoginScreen(
         signInUserUsecase: _signInUserUsecase,
-        onSuccess: onSuccess,
+        onSuccessUrl: onSuccessUrl,
       ),
     );
   }
@@ -30,7 +29,8 @@ class LoginRoute implements RouteRegistrar {
   @override
   Future<void> register(GetIt locator) async {
     locator.registerFactory(
-      () => LoginRoute(signInUserUsecase: locator(), onSuccess: onSuccess),
+      () =>
+          LoginRoute(signInUserUsecase: locator(), onSuccessUrl: onSuccessUrl),
     );
   }
 }
