@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
-import 'config/router.dart';
 import 'core/design_system/theme/theme.dart';
 
 class Application extends StatelessWidget {
-  final GetIt locator;
-  const Application({super.key, required this.locator});
+  final GoRouter router;
+  const Application({super.key, required this.router});
 
   // This widget is the root of your application.
   @override
@@ -14,7 +13,7 @@ class Application extends StatelessWidget {
     return MaterialApp.router(
       title: 'Tasko',
       theme: TaskoThemes.basic,
-      routerConfig: routerConfig(locator),
+      routerConfig: router,
     );
   }
 }

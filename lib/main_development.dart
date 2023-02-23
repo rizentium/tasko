@@ -1,27 +1,32 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'app.dart';
 import 'config/firebase_options.dart';
+import 'config/router.dart';
 import 'core/locator/locator.dart';
 import 'data/registrar.dart';
 import 'domain/registrar.dart';
 import 'flavors.dart';
 
 Future<void> appInitialize() async {
+  const fakeIdToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY'
+      '3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2Q'
+      'T4fwpMeJf36POk6yJV_adQssw5c';
+  const emulatorUrl = '10.0.2.2';
+
   // Firebase initialization
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  locator.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+  locator
+    ..registerSingleton<FirebaseAuth>(FirebaseAuth.instance)
+    ..registerSingleton<FirebaseDatabase>(FirebaseDatabase.instance);
 
-  FirebaseAuth.instance.useAuthEmulator('10.0.2.2', 9099);
+  FirebaseAuth.instance.useAuthEmulator(emulatorUrl, 9099);
+  FirebaseDatabase.instance.useDatabaseEmulator(emulatorUrl, 9000);
 
   final registrars = [
-    DataRegistrar(
-      fakeIdToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
-          'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG'
-          '9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT'
-          '4fwpMeJf36POk6yJV_adQssw5c',
-    ),
+    DataRegistrar(fakeIdToken: fakeIdToken),
     DomainRegistrar(),
   ];
 
@@ -34,5 +39,5 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await appInitialize();
 
-  runApp(Application(locator: locator));
+  runApp(Application(router: routerConfig(locator)));
 }

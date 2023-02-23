@@ -6,7 +6,7 @@ import 'package:tasko/feature/profile/screen/profile.dart';
 
 import '../feature/home/route/home.dart';
 
-routerConfig(GetIt locator) {
+GoRouter routerConfig(GetIt locator) {
   return GoRouter(
     routes: [
       HomeRoute(
