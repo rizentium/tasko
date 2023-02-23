@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tasko/feature/create_task/screen/create_task.dart';
 import 'package:tasko/feature/dashboard/screen/dashboard.dart';
 import 'package:tasko/feature/login/route/login.dart';
 import 'package:tasko/feature/profile/screen/profile.dart';
@@ -17,6 +18,7 @@ GoRouter routerConfig(GetIt locator) {
           onSignedOutUrl: LoginRoute.path,
         ),
         dashboardScreen: DashboardScreen(getTodoTaskUsecase: locator()),
+        createTaskScreen: const CreateTaskScreen(),
       ).route,
       LoginRoute(
         signInUserUsecase: locator(),

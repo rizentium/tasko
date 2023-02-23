@@ -11,6 +11,7 @@ class HomeRoute implements RouteRegistrar {
   final GetUserUsecase _getUserUsecase;
   final Widget _profileScreen;
   final Widget _dashboardScreen;
+  final Widget _createTaskScreen;
   final String onUnauthorizedUrl;
 
   HomeRoute({
@@ -18,9 +19,11 @@ class HomeRoute implements RouteRegistrar {
     required GetUserUsecase getUserUsecase,
     required Widget profileScreen,
     required Widget dashboardScreen,
+    required Widget createTaskScreen,
   })  : _getUserUsecase = getUserUsecase,
         _profileScreen = profileScreen,
-        _dashboardScreen = dashboardScreen;
+        _dashboardScreen = dashboardScreen,
+        _createTaskScreen = createTaskScreen;
 
   static String path = '/home';
 
@@ -33,6 +36,7 @@ class HomeRoute implements RouteRegistrar {
         getUserUsecase: _getUserUsecase,
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,
+        createTaskScren: _createTaskScreen,
       ),
     );
   }
@@ -45,6 +49,7 @@ class HomeRoute implements RouteRegistrar {
         getUserUsecase: locator(),
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,
+        createTaskScreen: _createTaskScreen,
       ),
     );
   }

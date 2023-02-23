@@ -8,6 +8,7 @@ class HomeScreen extends StatelessWidget {
   final GetUserUsecase _getUserUsecase;
   final Widget _profileScreen;
   final Widget _dashboardScreen;
+  final Widget _createTaskScreen;
   final String onUnauthorizedUrl;
 
   const HomeScreen({
@@ -15,10 +16,12 @@ class HomeScreen extends StatelessWidget {
     required GetUserUsecase getUserUsecase,
     required Widget profileScreen,
     required Widget dashboardScreen,
+    required Widget createTaskScren,
     required this.onUnauthorizedUrl,
   })  : _getUserUsecase = getUserUsecase,
         _profileScreen = profileScreen,
-        _dashboardScreen = dashboardScreen;
+        _dashboardScreen = dashboardScreen,
+        _createTaskScreen = createTaskScren;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +31,22 @@ class HomeScreen extends StatelessWidget {
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,
       ),
-      child: _HomeScreen(onUnauthorizedUrl: onUnauthorizedUrl),
+      child: _HomeScreen(
+        onUnauthorizedUrl: onUnauthorizedUrl,
+        createTaskScreen: _createTaskScreen,
+      ),
     );
   }
 }
 
 class _HomeScreen extends StatefulWidget {
   final String onUnauthorizedUrl;
+  final Widget createTaskScreen;
 
-  const _HomeScreen({required this.onUnauthorizedUrl});
+  const _HomeScreen({
+    required this.onUnauthorizedUrl,
+    required this.createTaskScreen,
+  });
 
   @override
   State<_HomeScreen> createState() => _HomeScreenState();
@@ -65,7 +75,7 @@ class _HomeScreenState extends State<_HomeScreen> {
             return Scaffold(
               body: state.navigationItems[state.currentIndex].screen,
               floatingActionButton: FloatingActionButton(
-                onPressed: () {},
+                onPressed: () => _onCreateTaskPressed(context),
                 child: const Icon(Icons.add),
               ),
               floatingActionButtonLocation:
@@ -87,4 +97,12 @@ class _HomeScreenState extends State<_HomeScreen> {
       ),
     );
   }
+
+  Future<void> _onCreateTaskPressed(BuildContext context) =>
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return widget.createTaskScreen;
+        },
+      );
 }
