@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tasko/core/design_system/ui/appbar_close.dart';
 import 'package:tasko/core/design_system/ui/text_field.dart';
 import 'package:tasko/core/extension/context.dart';
 import 'package:tasko/domain/usecases/tasks/create_todo_task_usecase.dart';
@@ -54,18 +55,9 @@ class _CreateTaskScreenState extends State<_CreateTaskScreen> {
       child: BlocBuilder<CreateTaskCubit, CreateTaskState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
+            appBar: AppBarClose(
+              context: context,
               title: const Text('Create New Task'),
-              actions: [
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
-                ),
-              ],
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.transparent,
-              foregroundColor: Colors.black,
-              elevation: 0.0,
             ),
             body: Container(
               padding: const EdgeInsets.all(16),

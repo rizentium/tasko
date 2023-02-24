@@ -10,6 +10,7 @@ class TaskItem extends StatelessWidget {
   final EdgeInsets? margin;
   final EdgeInsets? padding;
   final BoxDecoration? decoration;
+  final void Function()? onTap;
 
   const TaskItem({
     super.key,
@@ -20,6 +21,7 @@ class TaskItem extends StatelessWidget {
     this.margin,
     this.padding,
     this.decoration,
+    this.onTap,
   });
 
   String get _getCreatedAt {
@@ -43,21 +45,25 @@ class TaskItem extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(4.0),
           ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.justify,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            _getCreatedAt,
-            style: context.textTheme.labelMedium?.copyWith(color: Colors.grey),
-          ),
-        ],
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.justify,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _getCreatedAt,
+              style:
+                  context.textTheme.labelMedium?.copyWith(color: Colors.grey),
+            ),
+          ],
+        ),
       ),
     );
   }

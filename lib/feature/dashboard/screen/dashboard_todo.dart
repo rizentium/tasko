@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tasko/core/design_system/ui/task_item.dart';
 import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/domain/usecases/tasks/stream_todo_task_usecase.dart';
@@ -7,10 +10,13 @@ import 'package:tasko/feature/dashboard/bloc/dashboard_todo/dashboard_todo_cubit
 
 class DashboardTodoScreen extends StatelessWidget {
   final StreamTodoTaskUsecase _streamTodoTaskUsecase;
+  final String taskDetailUrl;
 
-  const DashboardTodoScreen(
-      {super.key, required StreamTodoTaskUsecase streamTodoTaskUsecase})
-      : _streamTodoTaskUsecase = streamTodoTaskUsecase;
+  const DashboardTodoScreen({
+    super.key,
+    required StreamTodoTaskUsecase streamTodoTaskUsecase,
+    required this.taskDetailUrl,
+  }) : _streamTodoTaskUsecase = streamTodoTaskUsecase;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +24,15 @@ class DashboardTodoScreen extends StatelessWidget {
       create: (context) => DashboardTodoCubit(
         streamTodoTaskUsecase: _streamTodoTaskUsecase,
       )..initialize(),
-      child: const _DashboardTodoScreen(),
+      child: _DashboardTodoScreen(taskDetailUrl: taskDetailUrl),
     );
   }
 }
 
 class _DashboardTodoScreen extends StatefulWidget {
-  const _DashboardTodoScreen();
+  final String taskDetailUrl;
+
+  const _DashboardTodoScreen({required this.taskDetailUrl});
 
   @override
   State<_DashboardTodoScreen> createState() => _DashboardTodoScreenState();
@@ -66,6 +74,7 @@ class _DashboardTodoScreenState extends State<_DashboardTodoScreen> {
                       id: item.id,
                       title: item.title,
                       createdAt: item.createdAt,
+                      onTap: () => _onTap(item),
                     );
                   },
                   itemCount: data.length,
@@ -78,5 +87,9 @@ class _DashboardTodoScreenState extends State<_DashboardTodoScreen> {
         );
       },
     );
+  }
+
+  _onTap(TaskEntity data) {
+    context.push(widget.taskDetailUrl, extra: data);
   }
 }

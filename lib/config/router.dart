@@ -5,6 +5,7 @@ import 'package:tasko/feature/create_task/screen/create_task.dart';
 import 'package:tasko/feature/dashboard/screen/dashboard.dart';
 import 'package:tasko/feature/login/route/login.dart';
 import 'package:tasko/feature/profile/screen/profile.dart';
+import 'package:tasko/feature/task_detail/route/task_detail.dart';
 
 import '../feature/home/route/home.dart';
 
@@ -19,13 +20,17 @@ GoRouter routerConfig(GetIt locator) {
           signOutUserUsecase: locator(),
           onSignedOutUrl: LoginRoute.path,
         ),
-        dashboardScreen: DashboardScreen(streamTodoTaskUsecase: locator()),
+        dashboardScreen: DashboardScreen(
+          streamTodoTaskUsecase: locator(),
+          taskDetailUrl: TaskDetailRoute.path,
+        ),
       ).route,
       LoginRoute(
         signInUserUsecase: locator(),
         onSuccessUrl: HomeRoute.path,
       ).route,
       CreateTaskRoute(createTodoTaskUsecase: locator()).route,
+      TaskDetailRoute().route,
     ],
     initialLocation: HomeRoute.path,
   );

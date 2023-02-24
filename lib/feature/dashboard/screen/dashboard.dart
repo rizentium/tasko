@@ -8,16 +8,20 @@ import '../bloc/dashboard/dashboard_cubit.dart';
 
 class DashboardScreen extends StatelessWidget {
   final StreamTodoTaskUsecase _streamTodoTaskUsecase;
+  final String taskDetailUrl;
 
-  const DashboardScreen(
-      {super.key, required StreamTodoTaskUsecase streamTodoTaskUsecase})
-      : _streamTodoTaskUsecase = streamTodoTaskUsecase;
+  const DashboardScreen({
+    super.key,
+    required StreamTodoTaskUsecase streamTodoTaskUsecase,
+    required this.taskDetailUrl,
+  }) : _streamTodoTaskUsecase = streamTodoTaskUsecase;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => DashboardCubit(
         streamTodoTaskUsecase: _streamTodoTaskUsecase,
+        taskDetailUrl: taskDetailUrl,
       ),
       child: const _DashboardScreen(),
     );
