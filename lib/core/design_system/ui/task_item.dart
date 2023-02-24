@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasko/core/extension/context.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class TaskItem extends StatelessWidget {
@@ -43,7 +44,7 @@ class TaskItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(4.0),
           ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             title,
@@ -52,17 +53,9 @@ class TaskItem extends StatelessWidget {
             textAlign: TextAlign.justify,
           ),
           const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(id, style: Theme.of(context).textTheme.bodyLarge),
-              Text(
-                _getCreatedAt,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Colors.grey,
-                    ),
-              ),
-            ],
+          Text(
+            _getCreatedAt,
+            style: context.textTheme.labelMedium?.copyWith(color: Colors.grey),
           ),
         ],
       ),

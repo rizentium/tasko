@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
@@ -16,21 +18,36 @@ class TaskRepository implements Repository {
 
   DatabaseReference _reference({String? ref}) {
     final uid = _auth.currentUser?.uid;
-    return _database.ref('tasks/$uid/${ref ?? ''}');
+    final path = 'tasks/$uid${ref != null ? '/$ref' : ''}';
+    return _database.ref(path)..keepSynced(true);
+  }
+
+  List<TaskEntity> _mapping(Map<Object?, Object?> data) {
+    return data.entries
+        .map((e) => jsonEncode(e.value))
+        .map(
+          (e) => TaskEntity.fromJson(jsonDecode(e) as Map<String, dynamic>),
+        )
+        .toList();
   }
 
   Future<void> create(TaskEntity entity) async {
-    return await _reference(ref: entity.id).set(entity);
+    return await _reference(ref: entity.id).set(entity.toJson());
   }
 
   Future<List<TaskEntity>> read() async {
     final resource = await _reference().get();
 
     if (resource.exists) {
-      final data = resource.value as Map<String, dynamic>;
-      return List.from(data.values).map((e) => TaskEntity.fromJson(e)).toList();
+      return _mapping(resource.value as Map<Object?, Object?>);
     }
     return [];
+  }
+
+  Stream<List<TaskEntity>> asStream() {
+    return _reference().onValue.asyncMap(
+          (event) => _mapping(event.snapshot.value as Map<Object?, Object?>),
+        );
   }
 
   Future<void> update(TaskEntity entity) async {

@@ -12,8 +12,8 @@ extension BuildContextExtended on BuildContext {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
     required String message,
   }) {
-    return ScaffoldMessenger.of(this).showSnackBar(SnackBar(
-      content: Text(message),
-    ));
+    return ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 }

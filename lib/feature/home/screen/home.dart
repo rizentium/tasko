@@ -8,20 +8,19 @@ class HomeScreen extends StatelessWidget {
   final GetUserUsecase _getUserUsecase;
   final Widget _profileScreen;
   final Widget _dashboardScreen;
-  final Widget _createTaskScreen;
   final String onUnauthorizedUrl;
+  final String createTaskUrl;
 
   const HomeScreen({
     super.key,
     required GetUserUsecase getUserUsecase,
     required Widget profileScreen,
     required Widget dashboardScreen,
-    required Widget createTaskScren,
     required this.onUnauthorizedUrl,
+    required this.createTaskUrl,
   })  : _getUserUsecase = getUserUsecase,
         _profileScreen = profileScreen,
-        _dashboardScreen = dashboardScreen,
-        _createTaskScreen = createTaskScren;
+        _dashboardScreen = dashboardScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class HomeScreen extends StatelessWidget {
       ),
       child: _HomeScreen(
         onUnauthorizedUrl: onUnauthorizedUrl,
-        createTaskScreen: _createTaskScreen,
+        createTaskUrl: createTaskUrl,
       ),
     );
   }
@@ -41,11 +40,11 @@ class HomeScreen extends StatelessWidget {
 
 class _HomeScreen extends StatefulWidget {
   final String onUnauthorizedUrl;
-  final Widget createTaskScreen;
+  final String createTaskUrl;
 
   const _HomeScreen({
     required this.onUnauthorizedUrl,
-    required this.createTaskScreen,
+    required this.createTaskUrl,
   });
 
   @override
@@ -98,11 +97,7 @@ class _HomeScreenState extends State<_HomeScreen> {
     );
   }
 
-  Future<void> _onCreateTaskPressed(BuildContext context) =>
-      showModalBottomSheet<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return widget.createTaskScreen;
-        },
-      );
+  void _onCreateTaskPressed(BuildContext context) {
+    context.push(widget.createTaskUrl, extra: {});
+  }
 }

@@ -11,19 +11,18 @@ class HomeRoute implements RouteRegistrar {
   final GetUserUsecase _getUserUsecase;
   final Widget _profileScreen;
   final Widget _dashboardScreen;
-  final Widget _createTaskScreen;
   final String onUnauthorizedUrl;
+  final String createTaskUrl;
 
   HomeRoute({
     required this.onUnauthorizedUrl,
+    required this.createTaskUrl,
     required GetUserUsecase getUserUsecase,
     required Widget profileScreen,
     required Widget dashboardScreen,
-    required Widget createTaskScreen,
   })  : _getUserUsecase = getUserUsecase,
         _profileScreen = profileScreen,
-        _dashboardScreen = dashboardScreen,
-        _createTaskScreen = createTaskScreen;
+        _dashboardScreen = dashboardScreen;
 
   static String path = '/home';
 
@@ -33,10 +32,10 @@ class HomeRoute implements RouteRegistrar {
       path: path,
       builder: (context, state) => HomeScreen(
         onUnauthorizedUrl: onUnauthorizedUrl,
+        createTaskUrl: createTaskUrl,
         getUserUsecase: _getUserUsecase,
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,
-        createTaskScren: _createTaskScreen,
       ),
     );
   }
@@ -46,10 +45,10 @@ class HomeRoute implements RouteRegistrar {
     locator.registerFactory(
       () => HomeRoute(
         onUnauthorizedUrl: onUnauthorizedUrl,
+        createTaskUrl: createTaskUrl,
         getUserUsecase: locator(),
         profileScreen: _profileScreen,
         dashboardScreen: _dashboardScreen,
-        createTaskScreen: _createTaskScreen,
       ),
     );
   }

@@ -2,9 +2,9 @@ part of 'dashboard_todo_cubit.dart';
 
 @immutable
 abstract class DashboardTodoState {
-  final List<TaskEntity> data;
+  final Stream<List<TaskEntity>>? data;
 
-  const DashboardTodoState({this.data = const []});
+  const DashboardTodoState({this.data});
 }
 
 class DashboardTodoInitial extends DashboardTodoState {}

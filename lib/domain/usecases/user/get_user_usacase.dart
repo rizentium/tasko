@@ -9,8 +9,7 @@ class GetUserUsecase implements Usecase<User?> {
   GetUserUsecase({required FirebaseUserRepository firebaseUserRepository})
       : _firebaseUserRepository = firebaseUserRepository;
 
-  @override
-  execute() => _firebaseUserRepository.getCurrentUser();
+  User? execute() => _firebaseUserRepository.getCurrentUser();
 
   @override
   Future<void> register(GetIt locator) async {

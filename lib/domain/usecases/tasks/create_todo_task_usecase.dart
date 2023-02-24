@@ -3,18 +3,21 @@ import 'package:tasko/core/locator/usecase.dart';
 import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/data/repositories/task/task.dart';
 
-class GetTodoTaskUsecase implements Usecase {
+class CreateTodoTaskUsecase implements Usecase {
   final TaskRepository _taskRepository;
 
-  GetTodoTaskUsecase({required TaskRepository taskRepository})
-      : _taskRepository = taskRepository;
+  CreateTodoTaskUsecase({
+    required TaskRepository taskRepository,
+  }) : _taskRepository = taskRepository;
 
-  Future<List<TaskEntity>> execute() => _taskRepository.read();
+  Future<void> execute(TaskEntity entity) async {
+    return await _taskRepository.create(entity);
+  }
 
   @override
   Future<void> register(GetIt locator) async {
     locator.registerFactory(
-      () => GetTodoTaskUsecase(taskRepository: _taskRepository),
+      () => CreateTodoTaskUsecase(taskRepository: locator()),
     );
   }
 }

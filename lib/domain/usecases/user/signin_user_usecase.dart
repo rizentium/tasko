@@ -9,8 +9,9 @@ class SignInUserUsecase implements Usecase<Future<UserCredential>> {
   SignInUserUsecase({required FirebaseUserRepository firebaseUserRepository})
       : _firebaseUserRepository = firebaseUserRepository;
 
-  @override
-  execute() => _firebaseUserRepository.signInWithGoogle();
+  Future<UserCredential> execute() {
+    return _firebaseUserRepository.signInWithGoogle();
+  }
 
   @override
   Future<void> register(GetIt locator) async {

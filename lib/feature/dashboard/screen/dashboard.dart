@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasko/core/design_system/controller/loading_controller.dart';
 import 'package:tasko/core/extension/context.dart';
-import 'package:tasko/domain/usecases/tasks/get_todo_task_usecase.dart';
+import 'package:tasko/domain/usecases/tasks/stream_todo_task_usecase.dart';
 
 import '../bloc/dashboard/dashboard_cubit.dart';
 
 class DashboardScreen extends StatelessWidget {
-  final GetTodoTaskUsecase _getTodoTaskUsecase;
+  final StreamTodoTaskUsecase _streamTodoTaskUsecase;
 
   const DashboardScreen(
-      {super.key, required GetTodoTaskUsecase getTodoTaskUsecase})
-      : _getTodoTaskUsecase = getTodoTaskUsecase;
+      {super.key, required StreamTodoTaskUsecase streamTodoTaskUsecase})
+      : _streamTodoTaskUsecase = streamTodoTaskUsecase;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => DashboardCubit(getTodoTaskUsecase: _getTodoTaskUsecase),
+      create: (_) => DashboardCubit(
+        streamTodoTaskUsecase: _streamTodoTaskUsecase,
+      ),
       child: const _DashboardScreen(),
     );
   }
