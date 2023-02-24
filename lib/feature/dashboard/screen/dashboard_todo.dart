@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -63,7 +64,9 @@ class _DashboardTodoScreenState extends State<_DashboardTodoScreen> {
               }
 
               // filter only for task that not started yet.
-              final data = snapshot.data?.where((e) => e.startedAt == null);
+              final data = snapshot.data
+                  ?.where((e) => e.startedAt == null)
+                  .sorted((a, b) => b.createdAt.compareTo(a.createdAt));
 
               if (data != null && data.isNotEmpty) {
                 return ListView.builder(
