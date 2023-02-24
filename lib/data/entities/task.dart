@@ -27,4 +27,22 @@ class TaskEntity {
       _$TaskEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$TaskEntityToJson(this);
+
+  TaskEntity copyWith({
+    String? id,
+    String? title,
+    String? description,
+    DateTime? createdAt,
+    DateTime? startedAt,
+    DateTime? finishedAt,
+  }) {
+    return TaskEntity(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
+      startedAt: startedAt ?? this.startedAt,
+      finishedAt: finishedAt ?? this.finishedAt,
+    );
+  }
 }

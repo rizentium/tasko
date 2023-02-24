@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tasko/core/design_system/ui/appbar_close.dart';
 import 'package:tasko/core/extension/context.dart';
 import 'package:tasko/data/entities/task.dart';
@@ -6,8 +7,9 @@ import 'package:tasko/feature/task_detail/widget/history_detail.dart';
 
 class TaskDetailScreen extends StatelessWidget {
   final TaskEntity? task;
+  final String taskUpdateUrl;
 
-  const TaskDetailScreen({super.key, this.task});
+  const TaskDetailScreen({super.key, this.task, required this.taskUpdateUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,12 @@ class TaskDetailScreen extends StatelessWidget {
       appBar: AppBarClose(
         context: context,
         title: const Text('Task Detail'),
+        actions: [
+          IconButton(
+            onPressed: () => context.push(taskUpdateUrl, extra: task),
+            icon: const Icon(Icons.edit),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),

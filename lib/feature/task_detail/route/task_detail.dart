@@ -6,14 +6,15 @@ import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/feature/task_detail/screen/task_detail.dart';
 
 class TaskDetailRoute with TransitionBuilderMixin implements RouteRegistrar {
+  final String taskUpdateUrl;
   static String path = '/task-detail';
 
-  TaskDetailRoute();
+  TaskDetailRoute({required this.taskUpdateUrl});
 
   @override
   Future<void> register(GetIt locator) async {
     locator.registerFactory(
-      () => const TaskDetailScreen(),
+      () => TaskDetailScreen(taskUpdateUrl: taskUpdateUrl),
     );
   }
 
@@ -24,7 +25,7 @@ class TaskDetailRoute with TransitionBuilderMixin implements RouteRegistrar {
       pageBuilder: (context, state) {
         final task = state.extra as TaskEntity?;
         return CustomTransitionPage(
-          child: TaskDetailScreen(task: task),
+          child: TaskDetailScreen(task: task, taskUpdateUrl: taskUpdateUrl),
           transitionsBuilder: bottomToUpTransition,
         );
       },
