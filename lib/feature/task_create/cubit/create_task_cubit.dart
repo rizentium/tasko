@@ -6,25 +6,25 @@ import 'package:uuid/uuid_util.dart';
 
 part 'create_task_state.dart';
 
-class CreateTaskCubit extends Cubit<CreateTaskState> {
+class TaskCreateCubit extends Cubit<TaskCreateState> {
   final CreateTodoTaskUsecase _createTodoTaskUsecase;
 
-  CreateTaskCubit({required CreateTodoTaskUsecase createTodoTaskUsecase})
+  TaskCreateCubit({required CreateTodoTaskUsecase createTodoTaskUsecase})
       : _createTodoTaskUsecase = createTodoTaskUsecase,
-        super(CreateTaskInitial());
+        super(TaskCreateInitial());
 
   Future<void> create({
     required String title,
     required String description,
   }) async {
-    emit(CreateTaskLoading());
+    emit(TaskCreateLoading());
 
     final isValid = [title, description]
         .map((e) => e != '')
         .fold(true, (prev, curr) => prev && curr);
 
     if (!isValid) {
-      emit(const CreateTaskFailure(
+      emit(const TaskCreateFailure(
         message: 'Please fill all required text fields.',
       ));
       return;
@@ -39,9 +39,9 @@ class CreateTaskCubit extends Cubit<CreateTaskState> {
         createdAt: DateTime.now(),
       );
       await _createTodoTaskUsecase.execute(taskEntity);
-      emit(CreateTaskSuccess());
+      emit(TaskCreateSuccess());
     } catch (e) {
-      emit(const CreateTaskFailure(message: 'Ops. Something when wrong!'));
+      emit(const TaskCreateFailure(message: 'Ops. Something when wrong!'));
     }
   }
 }

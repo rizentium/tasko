@@ -3,20 +3,20 @@ import 'package:go_router/go_router.dart';
 import 'package:tasko/core/locator/route.dart';
 import 'package:tasko/core/mixin/transition_builder.dart';
 import 'package:tasko/domain/usecases/tasks/create_todo_task_usecase.dart';
-import 'package:tasko/feature/create_task/screen/create_task.dart';
+import 'package:tasko/feature/task_create/screen/task_create.dart';
 
-class CreateTaskRoute with TransitionBuilderMixin implements RouteRegistrar {
+class TaskCreateRoute with TransitionBuilderMixin implements RouteRegistrar {
   final CreateTodoTaskUsecase _createTodoTaskUsecase;
 
   static String path = '/task-create';
 
-  CreateTaskRoute({required CreateTodoTaskUsecase createTodoTaskUsecase})
+  TaskCreateRoute({required CreateTodoTaskUsecase createTodoTaskUsecase})
       : _createTodoTaskUsecase = createTodoTaskUsecase;
 
   @override
   Future<void> register(GetIt locator) async {
     locator.registerFactory(
-      () => CreateTaskScreen(createTodoTaskUsecase: locator()),
+      () => TaskCreateScreen(createTodoTaskUsecase: locator()),
     );
   }
 
@@ -25,7 +25,7 @@ class CreateTaskRoute with TransitionBuilderMixin implements RouteRegistrar {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) => CustomTransitionPage(
-        child: CreateTaskScreen(
+        child: TaskCreateScreen(
           createTodoTaskUsecase: _createTodoTaskUsecase,
         ),
         transitionsBuilder: bottomToUpTransition,

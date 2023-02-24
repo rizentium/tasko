@@ -5,12 +5,12 @@ import 'package:tasko/core/design_system/ui/appbar_close.dart';
 import 'package:tasko/core/design_system/ui/text_field.dart';
 import 'package:tasko/core/extension/context.dart';
 import 'package:tasko/domain/usecases/tasks/create_todo_task_usecase.dart';
-import 'package:tasko/feature/create_task/cubit/create_task_cubit.dart';
+import 'package:tasko/feature/task_create/cubit/create_task_cubit.dart';
 
-class CreateTaskScreen extends StatelessWidget {
+class TaskCreateScreen extends StatelessWidget {
   final CreateTodoTaskUsecase _createTodoTaskUsecase;
 
-  const CreateTaskScreen({
+  const TaskCreateScreen({
     super.key,
     required CreateTodoTaskUsecase createTodoTaskUsecase,
   }) : _createTodoTaskUsecase = createTodoTaskUsecase;
@@ -18,22 +18,22 @@ class CreateTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateTaskCubit(
+      create: (context) => TaskCreateCubit(
         createTodoTaskUsecase: _createTodoTaskUsecase,
       ),
-      child: const _CreateTaskScreen(),
+      child: const _TaskCreateScreen(),
     );
   }
 }
 
-class _CreateTaskScreen extends StatefulWidget {
-  const _CreateTaskScreen();
+class _TaskCreateScreen extends StatefulWidget {
+  const _TaskCreateScreen();
 
   @override
-  State<_CreateTaskScreen> createState() => _CreateTaskScreenState();
+  State<_TaskCreateScreen> createState() => _TaskCreateScreenState();
 }
 
-class _CreateTaskScreenState extends State<_CreateTaskScreen> {
+class _TaskCreateScreenState extends State<_TaskCreateScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
 
@@ -42,17 +42,17 @@ class _CreateTaskScreenState extends State<_CreateTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreateTaskCubit, CreateTaskState>(
+    return BlocListener<TaskCreateCubit, TaskCreateState>(
       listener: (context, state) {
-        if (state is CreateTaskFailure) {
+        if (state is TaskCreateFailure) {
           context.showSnackBar(message: state.message);
         }
 
-        if (state is CreateTaskSuccess) {
+        if (state is TaskCreateSuccess) {
           context.pop();
         }
       },
-      child: BlocBuilder<CreateTaskCubit, CreateTaskState>(
+      child: BlocBuilder<TaskCreateCubit, TaskCreateState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBarClose(
@@ -108,7 +108,7 @@ class _CreateTaskScreenState extends State<_CreateTaskScreen> {
   }
 
   _onSavePressed(BuildContext context) {
-    context.read<CreateTaskCubit>().create(
+    context.read<TaskCreateCubit>().create(
           title: _titleController.text,
           description: _descriptionController.text,
         );
