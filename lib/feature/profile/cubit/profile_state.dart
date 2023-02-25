@@ -1,14 +1,24 @@
 part of 'profile_cubit.dart';
 
 @immutable
-abstract class ProfileState {}
+abstract class ProfileState {
+  final User? data;
 
-class ProfileInitial extends ProfileState {}
+  const ProfileState({this.data});
+}
 
-class ProfileSignedOut extends ProfileState {}
+class ProfileInitial extends ProfileState {
+  const ProfileInitial({super.data});
+}
+
+class ProfileSuccess extends ProfileState {
+  const ProfileSuccess({super.data});
+}
 
 class ProfileFailure extends ProfileState {
   final String message;
 
-  ProfileFailure({required this.message});
+  const ProfileFailure({super.data, required this.message});
 }
+
+class ProfileSignedOut extends ProfileState {}

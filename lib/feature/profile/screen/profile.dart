@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tasko/core/extension/string.dart';
+import 'package:tasko/domain/usecases/user/get_user_usacase.dart';
 import 'package:tasko/domain/usecases/user/signout_user_usecase.dart';
 import 'package:tasko/feature/profile/cubit/profile_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
+  final GetUserUsecase _getUserUsecase;
   final SignOutUserUsecase _signOutUserUsecase;
   final String onSignedOutUrl;
 
   const ProfileScreen({
     required SignOutUserUsecase signOutUserUsecase,
+    required GetUserUsecase getUserUsecase,
     required this.onSignedOutUrl,
     super.key,
-  }) : _signOutUserUsecase = signOutUserUsecase;
+  })  : _getUserUsecase = getUserUsecase,
+        _signOutUserUsecase = signOutUserUsecase;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ProfileCubit(signOutUserUsecase: _signOutUserUsecase),
+      create: (_) => ProfileCubit(
+        getUserUsecase: _getUserUsecase,
+        signOutUserUsecase: _signOutUserUsecase,
+      )..initialize(),
       child: _ProfileScreen(onSignedOutUrl: onSignedOutUrl),
     );
   }
@@ -43,12 +51,28 @@ class _ProfileScreenState extends State<_ProfileScreen> {
       },
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
+          final data = state.data;
           return Scaffold(
             appBar: AppBar(
               title: const Text('User Profile'),
             ),
             body: ListView(
               children: [
+                if (data?.displayName.isUndefined == false)
+                  ListTile(
+                    title: const Text('Display Name'),
+                    subtitle: Text(data!.displayName!),
+                  ),
+                if (data?.email.isUndefined == false)
+                  ListTile(
+                    title: const Text('Email'),
+                    subtitle: Text(data!.email!),
+                  ),
+                if (data?.phoneNumber.isUndefined == false)
+                  ListTile(
+                    title: const Text('Phone Number'),
+                    subtitle: Text(data!.phoneNumber!),
+                  ),
                 ListTile(
                   title: const Text('Sign Out'),
                   onTap: () => context.read<ProfileCubit>().signOut(),
