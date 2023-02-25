@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/domain/usecases/tasks/stream_todo_task_usecase.dart';
+import 'package:tasko/utils/extensions/task_list.dart';
 
 part 'dashboard_done_state.dart';
 
@@ -17,11 +18,9 @@ class DashboardDoneCubit extends Cubit<DasboardDoneState> {
     emit(DashboardDoneLoading());
 
     try {
-      final data = _streamTodoTaskUsecase.execute().asyncMap<List<TaskEntity>>(
-            (event) => event
-                .where((e) => e.finishedAt != null)
-                .sorted((a, b) => b.createdAt.compareTo(a.createdAt)),
-          );
+      final data = _streamTodoTaskUsecase
+          .execute()
+          .asyncMap<List<TaskEntity>>((event) => event.getDoneList());
       emit(DashboardDoneSuccess(data: data));
     } catch (_) {
       emit(

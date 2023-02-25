@@ -7,6 +7,8 @@ class TaskItem extends StatelessWidget {
   final String title;
   final String? description;
   final DateTime createdAt;
+  final DateTime? startedAt;
+  final DateTime? finishedAt;
   final EdgeInsets? margin;
   final EdgeInsets? padding;
   final BoxDecoration? decoration;
@@ -18,13 +20,21 @@ class TaskItem extends StatelessWidget {
     required this.title,
     this.description,
     required this.createdAt,
+    this.startedAt,
+    this.finishedAt,
     this.margin,
     this.padding,
     this.decoration,
     this.onTap,
   });
 
-  String get _getCreatedAt {
+  String get _message {
+    if (finishedAt != null) {
+      return "Finised ${timeago.format(finishedAt!)}";
+    }
+    if (startedAt != null) {
+      return "Started ${timeago.format(startedAt!)}";
+    }
     return "Created ${timeago.format(createdAt)}";
   }
 
@@ -58,9 +68,10 @@ class TaskItem extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              _getCreatedAt,
-              style:
-                  context.textTheme.labelMedium?.copyWith(color: Colors.grey),
+              _message,
+              style: context.textTheme.labelMedium?.copyWith(
+                color: Colors.grey,
+              ),
             ),
           ],
         ),

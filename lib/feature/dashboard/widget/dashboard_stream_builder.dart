@@ -40,6 +40,8 @@ class DashboardStreamBuilder extends StreamBuilderBase<List<TaskEntity>,
             id: item.id,
             title: item.title,
             createdAt: item.createdAt,
+            startedAt: item.startedAt,
+            finishedAt: item.finishedAt,
             onTap: () => onTap?.call(context, item),
           );
         },

@@ -1,8 +1,8 @@
-import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/domain/usecases/tasks/stream_todo_task_usecase.dart';
+import 'package:tasko/utils/extensions/task_list.dart';
 
 part 'dashboard_in_progress_state.dart';
 
@@ -18,11 +18,9 @@ class DashboardInProgressCubit extends Cubit<DashboardInProgressState> {
     emit(DashboardInProgressLoading());
 
     try {
-      final data = _streamTodoTaskUsecase.execute().asyncMap<List<TaskEntity>>(
-            (event) => event
-                .where((e) => e.startedAt != null && e.finishedAt == null)
-                .sorted((a, b) => b.createdAt.compareTo(a.createdAt)),
-          );
+      final data = _streamTodoTaskUsecase
+          .execute()
+          .asyncMap<List<TaskEntity>>((event) => event.getInProgressList());
       emit(DashboardInProgressSuccess(data: data));
     } catch (_) {
       emit(
