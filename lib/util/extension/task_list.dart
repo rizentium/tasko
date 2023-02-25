@@ -18,4 +18,27 @@ extension ListOfTaskExtended on List<TaskEntity> {
       (a, b) => b.finishedAt?.compareTo(a.finishedAt ?? DateTime.now()) ?? 0,
     );
   }
+
+  String toCSV() {
+    final headers = [
+      'ID',
+      'Title',
+      'Description',
+      'Created at',
+      'Started at',
+      'Finished at'
+    ].map((e) => '"$e"').join(', ');
+    final items = map(
+      (e) => [
+        e.id,
+        e.title,
+        e.description,
+        e.createdAt,
+        e.startedAt,
+        e.finishedAt
+      ].map((e) => '"$e"').join(', '),
+    ).toList();
+
+    return [headers, ...items].join('\n');
+  }
 }

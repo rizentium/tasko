@@ -17,6 +17,7 @@ GoRouter routerConfig(GetIt locator) {
         getUserUsecase: locator(),
         profileScreen: ProfileScreen(
           signOutUserUsecase: locator(),
+          exportTodoTaskUsecase: locator(),
           getUserUsecase: locator(),
           onSignedOutUrl: LoginRoute.path,
         ),

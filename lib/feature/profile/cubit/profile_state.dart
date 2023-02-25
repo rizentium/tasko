@@ -22,3 +22,7 @@ class ProfileFailure extends ProfileState {
 }
 
 class ProfileSignedOut extends ProfileState {}
+
+class ProfileFileExported extends ProfileState {
+  const ProfileFileExported({super.data});
+}
