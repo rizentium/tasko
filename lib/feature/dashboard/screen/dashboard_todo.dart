@@ -28,20 +28,10 @@ class DashboardTodoScreen extends StatelessWidget {
   }
 }
 
-class _DashboardTodoScreen extends StatefulWidget {
+class _DashboardTodoScreen extends StatelessWidget {
   final String taskDetailUrl;
 
   const _DashboardTodoScreen({required this.taskDetailUrl});
-
-  @override
-  State<_DashboardTodoScreen> createState() => _DashboardTodoScreenState();
-}
-
-class _DashboardTodoScreenState extends State<_DashboardTodoScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +65,7 @@ class _DashboardTodoScreenState extends State<_DashboardTodoScreen> {
                       id: item.id,
                       title: item.title,
                       createdAt: item.createdAt,
-                      onTap: () => _onTap(item),
+                      onTap: () => _onTap(context, item),
                     );
                   },
                   itemCount: data.length,
@@ -90,7 +80,7 @@ class _DashboardTodoScreenState extends State<_DashboardTodoScreen> {
     );
   }
 
-  _onTap(TaskEntity data) {
-    context.push(widget.taskDetailUrl, extra: data);
+  _onTap(BuildContext context, TaskEntity data) {
+    context.push(taskDetailUrl, extra: data);
   }
 }
