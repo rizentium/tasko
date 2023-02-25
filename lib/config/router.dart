@@ -29,7 +29,11 @@ GoRouter routerConfig(GetIt locator) {
         onSuccessUrl: HomeRoute.path,
       ).route,
       TaskCreateRoute(createTodoTaskUsecase: locator()).route,
-      TaskDetailRoute(taskUpdateUrl: TaskUpdateRoute.path).route,
+      TaskDetailRoute(
+        taskUpdateUrl: TaskUpdateRoute.path,
+        onSuccessUpdateUrl: HomeRoute.path,
+        updateTodoTaskUsecase: locator(),
+      ).route,
       TaskUpdateRoute(
         updateTodoTaskUsecase: locator(),
         onSuccess: (context) => context.go(HomeRoute.path),
