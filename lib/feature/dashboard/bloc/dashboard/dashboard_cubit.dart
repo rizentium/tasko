@@ -34,21 +34,18 @@ class DashboardCubit extends Cubit<DashboardState> {
                 streamTodoTaskUsecase: _streamTodoTaskUsecase,
                 taskDetailUrl: taskDetailUrl,
               ),
-              tab: const Tab(
-                text: 'To Do',
-              ),
+              tab: const Tab(text: 'To Do'),
             ),
             DashboardTabItem(
-              screen: const DashboardInProgressScreen(),
-              tab: const Tab(
-                text: 'In Progress',
+              screen: DashboardInProgressScreen(
+                streamTodoTaskUsecase: _streamTodoTaskUsecase,
+                taskDetailUrl: taskDetailUrl,
               ),
+              tab: const Tab(text: 'In Progress'),
             ),
             DashboardTabItem(
               screen: const DashboardDoneScreen(),
-              tab: const Tab(
-                text: 'Done',
-              ),
+              tab: const Tab(text: 'Done'),
             ),
           ],
         ),

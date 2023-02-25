@@ -1,11 +1,9 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tasko/core/design_system/ui/task_item.dart';
-import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/domain/usecases/tasks/stream_todo_task_usecase.dart';
 import 'package:tasko/feature/dashboard/bloc/dashboard_todo/dashboard_todo_cubit.dart';
+import 'package:tasko/feature/dashboard/widget/dashboard_stream_builder.dart';
 
 class DashboardTodoScreen extends StatelessWidget {
   final StreamTodoTaskUsecase _streamTodoTaskUsecase;
@@ -38,49 +36,14 @@ class _DashboardTodoScreen extends StatelessWidget {
     return BlocBuilder<DashboardTodoCubit, DashboardTodoState>(
       builder: (context, state) {
         return Scaffold(
-          body: StreamBuilder<List<TaskEntity>>(
+          body: DashboardStreamBuilder(
             stream: state.data,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.connectionState == ConnectionState.none) {
-                return const Center(
-                  child: Text('Please check your connection'),
-                );
-              }
-
-              // filter only for task that not started yet.
-              final data = snapshot.data
-                  ?.where((e) => e.startedAt == null)
-                  .sorted((a, b) => b.createdAt.compareTo(a.createdAt));
-
-              if (data != null && data.isNotEmpty) {
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  itemBuilder: (context, index) {
-                    final item = data.elementAt(index);
-                    return TaskItem(
-                      id: item.id,
-                      title: item.title,
-                      createdAt: item.createdAt,
-                      onTap: () => _onTap(context, item),
-                    );
-                  },
-                  itemCount: data.length,
-                );
-              }
-
-              return const Center(child: Text('Create your first task'));
-            },
+            onTap: (context, data) => context.push(taskDetailUrl, extra: data),
+            messageEmpty: 'Create your first task',
+            messageNoConnection: 'Please check your connection',
           ),
         );
       },
     );
-  }
-
-  _onTap(BuildContext context, TaskEntity data) {
-    context.push(taskDetailUrl, extra: data);
   }
 }

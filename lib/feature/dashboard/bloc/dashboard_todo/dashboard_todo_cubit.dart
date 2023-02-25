@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tasko/data/entities/task.dart';
@@ -16,7 +17,11 @@ class DashboardTodoCubit extends Cubit<DashboardTodoState> {
     emit(DashboardTodoLoading());
 
     try {
-      final data = _streamTodoTaskUsecase.execute();
+      final data = _streamTodoTaskUsecase.execute().asyncMap<List<TaskEntity>>(
+            (event) => event
+                .where((e) => e.startedAt == null)
+                .sorted((a, b) => b.createdAt.compareTo(a.createdAt)),
+          );
       emit(DashboardTodoSuccess(data: data));
     } catch (_) {
       emit(const DashboardTodoFailure(message: 'Ops. Something happened!'));
