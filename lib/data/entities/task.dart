@@ -57,7 +57,7 @@ class TaskEntity {
     return value?.map((e) => e.toJson()).toList();
   }
 
-  String? get spendingTime {
+  String? get durationTracking {
     List<List<DateTime?>>? pointMap = [];
 
     for (int x = 0; x < (trackers?.length ?? 0); x++) {
@@ -86,7 +86,19 @@ class TaskEntity {
       return null;
     }
 
-    final result = Duration(seconds: durationInSeconds).toString();
-    return result.split('.').first;
+    final durationInString = Duration(seconds: durationInSeconds).toString();
+    return durationInString.split('.').first;
+  }
+
+  String? get durationCompleted {
+    if (finishedAt != null) {
+      final durationInString = finishedAt
+          ?.difference(
+            startedAt ?? DateTime.now(),
+          )
+          .toString();
+      return durationInString?.split('.').first;
+    }
+    return null;
   }
 }

@@ -114,8 +114,10 @@ class _TaskDetailScreen extends StatelessWidget {
                     style: context.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
-                  if (task?.spendingTime != null)
-                    Text('Spending Time: ${task?.spendingTime}'),
+                  if (task?.durationTracking != null)
+                    Text('Spent Duration: ${task?.durationTracking}'),
+                  if (task?.durationCompleted != null)
+                    Text('Completed in ${task?.durationCompleted}'),
                   const Divider(),
                   HistoryDetail(
                     createdAt: task?.createdAt,
