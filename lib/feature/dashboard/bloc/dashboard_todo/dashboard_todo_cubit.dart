@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/domain/usecases/tasks/stream_todo_task_usecase.dart';
-import 'package:tasko/utils/extensions/task_list.dart';
+import 'package:tasko/util/extension/task_list.dart';
 
 part 'dashboard_todo_state.dart';
 
