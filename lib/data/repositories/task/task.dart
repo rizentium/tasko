@@ -5,7 +5,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tasko/core/locator/repository.dart';
 import 'package:tasko/data/entities/task.dart';
+import 'package:mockito/annotations.dart';
 
+@GenerateNiceMocks([MockSpec<TaskRepository>()])
 class TaskRepository implements Repository {
   final FirebaseDatabase _database;
   final FirebaseAuth _auth;

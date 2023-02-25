@@ -51,3 +51,7 @@ GoogleService-Info.plist
 
 # Generated related
 *.g.dart
+*.mocks.dart
+
+# Coverage
+coverage

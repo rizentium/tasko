@@ -52,3 +52,5 @@ final getTaskList = [
     finishedAt: DateTime.now().add(const Duration(minutes: 27)),
   ),
 ];
+
+final getTask = getTaskList.first;
