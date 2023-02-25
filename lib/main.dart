@@ -8,7 +8,6 @@ import 'config/router.dart';
 import 'core/locator/locator.dart';
 import 'data/registrar.dart';
 import 'domain/registrar.dart';
-import 'flavors.dart';
 
 Future<void> appInitialize() async {
   // Firebase initialization
@@ -29,8 +28,6 @@ Future<void> appInitialize() async {
 }
 
 Future<void> main() async {
-  F.appFlavor = Flavor.production;
-
   WidgetsFlutterBinding.ensureInitialized();
   await appInitialize();
 
