@@ -26,8 +26,9 @@ class TaskDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          TaskDetailCubit(updateTodoTaskUsecase: _updateTodoTaskUsecase),
+      create: (context) => TaskDetailCubit(
+        updateTodoTaskUsecase: _updateTodoTaskUsecase,
+      )..initialize(task),
       child: _TaskDetailScreen(
         taskUpdateUrl: taskUpdateUrl,
         onSuccessUpdateUrl: onSuccessUpdateUrl,
@@ -59,6 +60,10 @@ class _TaskDetailScreen extends StatelessWidget {
         if (state is TaskDetailSuccess) {
           context.go(onSuccessUpdateUrl);
         }
+
+        if (state is TaskDetailTracking) {
+          context.showSnackBar(message: state.message);
+        }
       },
       child: BlocBuilder<TaskDetailCubit, TaskDetailState>(
         builder: (context, state) {
@@ -76,6 +81,7 @@ class _TaskDetailScreen extends StatelessWidget {
             bottomNavigationBar: BottomActionButton(
               hasStarted: task?.startedAt != null,
               hasFinished: task?.finishedAt != null,
+              trackers: task?.trackers,
               onPressed: (hasStarted, hasFinished) {
                 final cubit = context.read<TaskDetailCubit>();
                 if (hasFinished) {
@@ -89,6 +95,9 @@ class _TaskDetailScreen extends StatelessWidget {
 
                 cubit.startTask(task);
               },
+              onTracking: (type) => context
+                  .read<TaskDetailCubit>()
+                  .onTracking(task: task, type: type),
             ),
             body: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -105,6 +114,8 @@ class _TaskDetailScreen extends StatelessWidget {
                     style: context.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
+                  if (task?.spendingTime != null)
+                    Text('Spending Time: ${task?.spendingTime}'),
                   const Divider(),
                   HistoryDetail(
                     createdAt: task?.createdAt,

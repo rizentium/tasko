@@ -2,12 +2,19 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'task_tracker.g.dart';
 
+enum TaskTrackerType {
+  @JsonValue('started')
+  started,
+  @JsonValue('stopped')
+  stopped
+}
+
 @JsonSerializable()
 class TaskTracker {
-  final DateTime startedAt;
-  final DateTime finishedAt;
+  final DateTime point;
+  final TaskTrackerType type;
 
-  TaskTracker({required this.startedAt, required this.finishedAt});
+  TaskTracker({required this.point, required this.type});
 
   factory TaskTracker.fromJson(Map<String, dynamic> json) =>
       _$TaskTrackerFromJson(json);
