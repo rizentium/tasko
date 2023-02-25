@@ -97,17 +97,24 @@ class TaskDetailCubit extends Cubit<TaskDetailState> {
     }
 
     try {
-      final item = task.copyWith(
-        trackers: task.trackers
-          ?..add(TaskTracker(point: DateTime.now(), type: type)),
+      final trackers = state.data?.trackers ?? [];
+      final item = state.data?.copyWith(
+        trackers: trackers..add(TaskTracker(point: DateTime.now(), type: type)),
       );
 
-      await _updateTodoTaskUsecase.execute(item);
+      if (item != null) {
+        await _updateTodoTaskUsecase.execute(item);
 
-      final message = type == TaskTrackerType.started
-          ? 'Time Tracker started'
-          : 'Time Tracker stopped';
-      emit(TaskDetailTracking(data: item, message: message));
+        final message = type == TaskTrackerType.started
+            ? 'Time Tracker started'
+            : 'Time Tracker stopped';
+        emit(TaskDetailTracking(data: item, message: message));
+      } else {
+        emit(TaskDetailFailure(
+          data: state.data,
+          message: 'Data is not initialized yet.',
+        ));
+      }
     } catch (e) {
       emit(TaskDetailFailure(data: state.data, message: e.toString()));
     }

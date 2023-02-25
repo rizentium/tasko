@@ -7,6 +7,7 @@ import 'package:tasko/data/entities/task.dart';
 import 'package:tasko/domain/usecases/tasks/update_todo_task_usecase.dart';
 import 'package:tasko/feature/task_detail/cubit/task_detail_cubit.dart';
 import 'package:tasko/feature/task_detail/widget/bottom_action_button.dart';
+import 'package:tasko/feature/task_detail/widget/duration_detail.dart';
 import 'package:tasko/feature/task_detail/widget/history_detail.dart';
 
 class TaskDetailScreen extends StatelessWidget {
@@ -114,10 +115,12 @@ class _TaskDetailScreen extends StatelessWidget {
                     style: context.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
-                  if (task?.durationTracking != null)
-                    Text('Spent Duration: ${task?.durationTracking}'),
-                  if (task?.durationCompleted != null)
-                    Text('Completed in ${task?.durationCompleted}'),
+                  DurationDetail(
+                    durationBlocked: task?.durationBlocked,
+                    durationWorking: task?.durationWorking,
+                    durationInProgress: task?.durationInProgress,
+                    durationCompleted: task?.durationCompleted,
+                  ),
                   const Divider(),
                   HistoryDetail(
                     createdAt: task?.createdAt,

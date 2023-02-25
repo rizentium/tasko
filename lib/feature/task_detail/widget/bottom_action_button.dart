@@ -40,9 +40,9 @@ class BottomActionButton extends StatelessWidget {
     final lastTrackingType = trackers?.last;
 
     if (lastTrackingType?.type == TaskTrackerType.started) {
-      return 'Tracking';
+      return 'Pause Working';
     }
-    return 'Time Tracking';
+    return 'Start Working';
   }
 
   buttonTrackingPressed() {

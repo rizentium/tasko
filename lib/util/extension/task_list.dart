@@ -26,7 +26,11 @@ extension ListOfTaskExtended on List<TaskEntity> {
       'Description',
       'Created at',
       'Started at',
-      'Finished at'
+      'Finished at',
+      'Backlog Time',
+      'In Progress Time',
+      'Total Time',
+      'Working Time',
     ].map((e) => '"$e"').join(', ');
     final items = map(
       (e) => [
@@ -35,7 +39,11 @@ extension ListOfTaskExtended on List<TaskEntity> {
         e.description,
         e.createdAt,
         e.startedAt,
-        e.finishedAt
+        e.finishedAt,
+        e.durationBlocked,
+        e.durationInProgress,
+        e.durationInProgress,
+        e.durationWorking,
       ].map((e) => '"$e"').join(', '),
     ).toList();
 

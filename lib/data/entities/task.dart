@@ -57,7 +57,27 @@ class TaskEntity {
     return value?.map((e) => e.toJson()).toList();
   }
 
-  String? get durationTracking {
+  String? get durationBlocked {
+    if (startedAt != null) {
+      final durationInString = startedAt?.difference(createdAt).toString();
+      return durationInString?.split('.').first;
+    }
+    return null;
+  }
+
+  String? get durationInProgress {
+    if (finishedAt != null) {
+      final durationInString = finishedAt
+          ?.difference(
+            startedAt ?? DateTime.now(),
+          )
+          .toString();
+      return durationInString?.split('.').first;
+    }
+    return null;
+  }
+
+  String? get durationWorking {
     List<List<DateTime?>>? pointMap = [];
 
     for (int x = 0; x < (trackers?.length ?? 0); x++) {
@@ -92,11 +112,7 @@ class TaskEntity {
 
   String? get durationCompleted {
     if (finishedAt != null) {
-      final durationInString = finishedAt
-          ?.difference(
-            startedAt ?? DateTime.now(),
-          )
-          .toString();
+      final durationInString = finishedAt?.difference(createdAt).toString();
       return durationInString?.split('.').first;
     }
     return null;
